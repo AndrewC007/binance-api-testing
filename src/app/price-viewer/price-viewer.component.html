@@ -1,5 +1,7 @@
 <div>
-  <li *ngFor='let price of prices'>
-    {{price.symbol}} : {{price.price}}
-  </li>
+  <select name="binance-symbols">
+    <option *ngFor='let symbolInfo of symbols$ | async'>
+        {{symbolInfo.symbol}}
+    </option>
+  </select>  
 </div>

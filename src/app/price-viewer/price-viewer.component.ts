@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Price } from '../price';
 import { PriceService } from '../price.service';
+import { ExchangeInfo, Symbol } from '../exchangeInfo';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'app-price-viewer',
@@ -9,12 +12,17 @@ import { PriceService } from '../price.service';
 })
 export class PriceViewerComponent implements OnInit {
 
-  prices: Price[];
+  symbols$: Observable<Symbol[]>;
 
   constructor(private priceService: PriceService) { }
 
   ngOnInit() {
-    this.priceService.getPrices().subscribe(prices => this.prices = prices);
+    this.getPrices();
+  }
+
+  getPrices() {
+    this.symbols$ = this.priceService.getPrices()
+        .map(exchangeInfo => exchangeInfo.symbols)
   }
 
 }
